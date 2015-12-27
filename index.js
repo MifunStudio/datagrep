@@ -2,6 +2,7 @@ var fs = require('fs');
 var path = require('path');
 var express = require('express');
 var bodyParser = require('body-parser')
+var log = require('./log');
 
 var app = express();
 
@@ -19,9 +20,6 @@ app.all('/**', function(req, res) {
     }
 });
 
-var server = app.listen(3000, function () {
-    var host = server.address().address;
-    var port = server.address().port;
+app.use(log);
 
-    console.log('Server listening at http://%s:%s', host, port);
-});
+app.listen(3000);
