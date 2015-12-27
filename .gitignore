@@ -1,0 +1,9 @@
+node_modules
+
+client/build
+
+
+datatable/*
+!datatable/tables
+datatable/tables/*
+!datatable/tables/keep
