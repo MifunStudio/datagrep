@@ -1,8 +1,4 @@
 Ext.define('datagrep.view.table.DataTableController', {
-    requires: [
-        'datagrep.view.table.CreateTableWindow',
-        'datagrep.view.table.AddColumnWindow'
-    ],
     extend: 'Ext.app.ViewController',
     alias: 'controller.datatable',
 

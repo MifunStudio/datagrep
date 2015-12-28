@@ -4,7 +4,9 @@
 Ext.define('datagrep.view.table.DataTable', {
     requires: [
         'Ext.grid.RowNumberer',
-        'Ext.grid.plugin.CellEditing'
+        'Ext.grid.plugin.CellEditing',
+        'datagrep.view.table.CreateTableWindow',
+        'datagrep.view.table.AddColumnWindow'
     ],
     extend: 'Ext.panel.Panel',
     xtype: 'datagrep-datatable',
