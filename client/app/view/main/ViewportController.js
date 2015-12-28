@@ -3,7 +3,8 @@ Ext.define('datagrep.view.main.ViewportController', {
     alias: 'controller.mainviewport',
 
     onMainViewRender: function() {
-
+        var loading = document.getElementById('loading');
+        loading.parentNode.removeChild(loading);
     },
 
     onNavigationTreeSelectionChange: function (tree, node) {

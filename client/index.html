@@ -6,8 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
     <title>datagrep</title>
+    <link rel="stylesheet" href="resources/css/loader.css">
 
-    
     <script type="text/javascript">
         var Ext = Ext || {}; // Ext namespace won't be defined yet...
 
@@ -44,11 +44,15 @@
             //};
         };
     </script>
-    
-    
+
+
     <!-- The line below must be kept intact for Sencha Cmd to build your application -->
     <script id="microloader" data-app="a5e476d1-31d6-4097-8d1d-f579d34d7a71" type="text/javascript" src="bootstrap.js"></script>
 
 </head>
-<body></body>
+<body>
+<div id="loading" class="mask">
+    <div class="loader"></div>
+</div>
+</body>
 </html>
