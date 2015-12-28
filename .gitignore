@@ -2,6 +2,7 @@ node_modules
 
 client/build
 
+logs/error.log
 
 datatable/*
 !datatable/tables
