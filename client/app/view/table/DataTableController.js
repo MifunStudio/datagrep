@@ -6,6 +6,9 @@ Ext.define('datagrep.view.table.DataTableController', {
         controller: {
             '#addcolumnwindow': {
                 submitaddcolumn: 'onSubmitAddColumn'
+            },
+            '#createtablewindow': {
+                createtable: 'onCreateTable'
             }
         }
     },
@@ -16,6 +19,14 @@ Ext.define('datagrep.view.table.DataTableController', {
     onCreateTableBtnClick: function() {
         var win = Ext.create('datagrep.view.table.CreateTableWindow');
         win.show();
+    },
+
+    onCreateTable: function() {
+        var me = this,
+            refs = me.getReferences(),
+            tableCombobox = refs.tableCombobox;
+
+        // tableCombobox.store.reload();
     },
 
     onRemoveTableBtnClick: function() {

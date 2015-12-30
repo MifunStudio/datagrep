@@ -60,6 +60,20 @@ function removeDataTable(id) {
     return false;
 }
 
+function callbackSend(callbackId, data, req, res) {
+    res.setHeader('Content-Type', 'application/javascript');
+    var result = 'window.' + callbackId + '(' +  JSON.stringify(data) + ')';
+    res.send(result);
+}
+
+function transformArrayToHash(data, key) {
+    var hashData = {};
+    data.forEach(function(row) {
+        hashData[row[key]] = row;
+    });
+    return hashData;
+}
+
 module.exports = {
 
     list: function(req, res) {
@@ -115,8 +129,21 @@ module.exports = {
     loadTable: function(req, res) {
         res.setHeader('Content-Type', 'application/json');
         var table = req.query.table;
+        var callbackId = req.query.callback;
+        var dtype = req.query.dtype;
+        var key = req.query.key;
+
+        var isHash = dtype === 'hash';
+
         var tableFilePath = __dirname + '/datatable/tables/' + table + '.json';
         if(!fs.existsSync(tableFilePath)) {
+            if(callbackId) {
+                callbackSend(callbackId, {
+                    success: true,
+                    data: isHash ? {} : []
+                }, req, res);
+                return;
+            }
             res.send({
                 success: true,
                 data: []
@@ -125,6 +152,13 @@ module.exports = {
         }
         fs.readFile(tableFilePath, 'utf8', function(err, data) {
             if(err) {
+                if(callbackId) {
+                    callbackSend(callbackId, {
+                        success: !err,
+                        message: err
+                    }, req, res);
+                    return;
+                }
                 res.send({
                     success: !err,
                     message: err
@@ -135,11 +169,22 @@ module.exports = {
             if(trim(data)) {
                 try {
                     data = JSON.parse(data);
+                    if(isHash) {
+                        data = transformArrayToHash(data, key);
+                    }
                 } catch(e) {
                     err = e;
                 }
             } else {
-                data = [];
+                data = isHash ? {} : [];
+            }
+            if(callbackId) {
+                callbackSend(callbackId, {
+                    success: !err,
+                    message: err,
+                    data: data
+                }, req, res);
+                return;
             }
             res.send({
                 success: !err,

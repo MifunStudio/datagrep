@@ -2,6 +2,8 @@ Ext.define('datagrep.view.table.CreateTableWindowViewController', {
     extend: 'Ext.app.ViewController',
     alias: 'controller.createtablewindow',
 
+    id: 'createtablewindow',
+
     onCreateTableOkBtnClick: function() {
         var me = this,
             viewModel = me.getViewModel(),
@@ -12,10 +14,13 @@ Ext.define('datagrep.view.table.CreateTableWindowViewController', {
             tableName = values.tableName;
 
         var model = Ext.create('datagrep.model.DataTable', {
+            id: tableName,
             tableName: tableName
         });
         store.add(model);
 
         me.getView().close();
+
+        me.fireEvent('createtable');
     }
 });
