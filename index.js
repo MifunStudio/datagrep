@@ -10,6 +10,7 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
 app.use('/client', express.static(__dirname + '/client'));
+app.use('/game', express.static(__dirname + '/game'));
 
 app.all('/**', function(req, res) {
     var paths = req.path.split('/');
