@@ -9,4 +9,4 @@ datatable/*
 datatable/tables/*
 !datatable/tables/keep
 
-game
+client/game
