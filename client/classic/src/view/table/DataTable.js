@@ -31,7 +31,6 @@ Ext.define('datagrep.view.table.DataTable', {
             fieldLabel: '表格',
             displayField: 'tableName',
             labelWidth: 30,
-            editable: false,
             store: {
                 type: 'datatable'
             },

@@ -26,7 +26,7 @@ Ext.define('datagrep.view.table.DataTableController', {
             refs = me.getReferences(),
             tableCombobox = refs.tableCombobox;
 
-        // tableCombobox.store.reload();
+        tableCombobox.store.sync();
     },
 
     onRemoveTableBtnClick: function() {

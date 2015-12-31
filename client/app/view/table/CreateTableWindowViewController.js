@@ -14,9 +14,9 @@ Ext.define('datagrep.view.table.CreateTableWindowViewController', {
             tableName = values.tableName;
 
         var model = Ext.create('datagrep.model.DataTable', {
-            id: tableName,
             tableName: tableName
         });
+        model.set('id', tableName);
         store.add(model);
 
         me.getView().close();

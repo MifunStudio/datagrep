@@ -1,7 +1,6 @@
 Ext.define('datagrep.model.DataTable', {
     extend: 'Ext.data.Model',
     fields: [
-        { name: 'id', type: 'string' },
         { name: 'tableName', type: 'string' },
         { name: 'columns', type: 'string', defaultValue: '[]' }
     ],

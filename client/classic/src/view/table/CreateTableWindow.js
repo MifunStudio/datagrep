@@ -33,6 +33,7 @@ Ext.define('datagrep.view.table.CreateTableWindow', {
         var me = this;
 
         me.buttons = [{
+            itemId: 'sureBtn',
             text: '确定',
             handler: 'onCreateTableOkBtnClick'
         }, {
