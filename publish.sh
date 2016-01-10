@@ -15,4 +15,6 @@ cd client
 sencha app build
 cd ../
 cp -R client/build/production/datagrep publish/client
-cp -R client/game publish/client/game
+mkdir publish/game
+mkdir publish/game/undefined
+cp -R client/game/undefined/ publish/game/undefined/
