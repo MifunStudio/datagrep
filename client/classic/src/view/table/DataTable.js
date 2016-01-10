@@ -58,6 +58,10 @@ Ext.define('datagrep.view.table.DataTable', {
             iconCls: 'right-icon new-icon x-fa fa-file',
             text: '保存表格',
             handler: 'onSaveBtnClick'
+        }, {
+            iconCls: 'right-icon new-icon x-fa fa-file',
+            text: '选择Excel...',
+            handler: 'onSelectExcelBtnClick'
         }];
 
         me.cellEditing = new Ext.grid.plugin.CellEditing({

@@ -86,9 +86,86 @@ Ext.define('datagrep.view.table.DataTableController', {
             this.gridStore.save({
                 params: {
                     table: this.selectedTableModel.get('tableName')
+                },
+                success: function() {
+                    Ext.toast({
+                        html: '保存成功',
+                        align: 't'
+                    });
+                },
+                failure: function() {
+                    Ext.MessageBox.show({
+                        title: '错误',
+                        msg: '保存失败了!',
+                        buttons: Ext.MessageBox.OK,
+                        icon: Ext.MessageBox.ERROR
+                    });
                 }
             });
         }
+    },
+
+    onSelectExcelBtnClick: function() {
+        var me = this;
+        if(!me.gridStore) {
+            Ext.toast({
+                html: '请选择一个表格',
+                align: 't'
+            });
+            return;
+        }
+        var fileInput = document.getElementById('excelFileInput');
+        fileInput.addEventListener('change', function(e) {
+            var files = e.target.files;
+            if(files && files[0]) {
+                Ext.MessageBox.show({
+                    msg: '读取数据中...',
+                    progressText: 'reading...',
+                    width: 500,
+                    wait: {
+                        interval: 200
+                    }
+                });
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    fileInput.value = '';
+                    var data = e.target.result;
+                    var workbook = XLSX.read(data, {type: 'binary'});
+                    Ext.MessageBox.hide();
+
+                    var dialog = Ext.create('datagrep.view.common.ComboboxDialog', {
+                        title: '请选择数据表格',
+                        dataItems: workbook.SheetNames.slice(0)
+                    });
+                    dialog.showDialog(function(sheetName) {
+                        var worksheet = workbook.Sheets[sheetName];
+                        var array = XLSX.utils.sheet_to_json(worksheet);
+                        var startLine = 0;
+                        for(var i=0; i<array.length; i++) {
+                            var obj = array[i];
+                            var isStart = false;
+                            var colCount = 0;
+                            for(var key in obj) {
+                                if(obj[key]) {
+                                    colCount++;
+                                }
+                                if(obj[key].toLowerCase() === 'start') {
+                                    isStart = true;
+                                }
+                            }
+                            if(isStart && colCount) {
+                                startLine = i + 1;
+                                break;
+                            }
+                        }
+                        me.gridStore.removeAll();
+                        me.gridStore.add(array.slice(startLine));
+                    });
+                };
+                reader.readAsBinaryString(files[0]);
+            }
+        });
+        fileInput.click();
     },
 
     clearTableGrid: function() {
