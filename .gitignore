@@ -10,3 +10,5 @@ datatable/tables/*
 !datatable/tables/keep
 
 client/game
+
+publish

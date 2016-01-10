@@ -1,6 +1,7 @@
 Ext.define('datagrep.store.DataTable', {
     requires: [
-        'Ext.data.proxy.Ajax'
+        'Ext.data.proxy.Ajax',
+        'datagrep.Constants'
     ],
     extend: 'Ext.data.Store',
     alias: 'store.datatable',
@@ -9,10 +10,10 @@ Ext.define('datagrep.store.DataTable', {
     proxy: {
         type: 'ajax',
         api: {
-            create: '/datatable/create',
-            read: '/datatable/list',
-            update: '/datatable/update',
-            destroy: '/datatable/remove'
+            create: datagrep.Constants.SERVER_BASE + '/datatable/create',
+            read: datagrep.Constants.SERVER_BASE + '/datatable/list',
+            update: datagrep.Constants.SERVER_BASE + '/datatable/update',
+            destroy: datagrep.Constants.SERVER_BASE + '/datatable/remove'
         },
         reader: {
             type: 'json',

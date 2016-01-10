@@ -234,12 +234,13 @@ Ext.define('datagrep.view.table.DataTableController', {
 
 Ext.define('datagrep.view.table.store.SingleTable', {
     extend: 'Ext.data.Store',
+    requires: ['datagrep.Constants'],
     alias: 'store.singletable',
     proxy: {
         type: 'ajax',
         api: {
-            create: '/datatable/saveTable',
-            read: '/datatable/loadTable'
+            create: datagrep.Constants.SERVER_BASE + '/datatable/saveTable',
+            read: datagrep.Constants.SERVER_BASE + '/datatable/loadTable'
         },
         reader: {
             type: 'json',

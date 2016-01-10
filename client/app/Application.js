@@ -6,6 +6,10 @@
 Ext.define('datagrep.Application', {
     extend: 'Ext.app.Application',
 
+    requires: [
+        'datagrep.Constants'
+    ],
+
     name: 'datagrep',
 
     stores: [

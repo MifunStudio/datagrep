@@ -3,7 +3,8 @@ Ext.define('datagrep.view.main.Viewport', {
     xtype: 'mainviewport',
 
     requires: [
-        'Ext.list.Tree'
+        'Ext.list.Tree',
+        'Ext.window.Toast'
     ],
 
     controller: 'mainviewport',

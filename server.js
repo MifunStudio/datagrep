@@ -23,3 +23,5 @@ app.all('/**', function(req, res) {
 app.use(log);
 
 app.listen(3000);
+
+console.log('server start at 3000');
