@@ -40,6 +40,15 @@ Ext.define('datagrep.view.main.Viewport', {
                 {
                     xtype: 'tbspacer',
                     flex: 1
+                },
+                {
+                    xtype: 'button',
+                    text: '开发工具',
+                    listeners: {
+                        click: function() {
+                			require('remote').getCurrentWindow().toggleDevTools();
+                        }
+                    }
                 }
             ]
         },
