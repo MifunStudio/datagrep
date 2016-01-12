@@ -13,15 +13,26 @@ Ext.define('datagrep.view.game.DragonCaveView', {
         var me = this;
 
         me.tbar = [{
+            fieldLabel: '游戏地址',
+            labelWidth: 60,
+            xtype: 'textfield',
+            itemId: 'gameLink',
+            width: 400
+        }, {
             iconCls: 'right-icon new-icon x-fa fa-file',
             text:'刷新',
             listeners: {
                 click: function() {
+                    var link = me.down('#gameLink').getValue();
+                    link = link || "game/undefined/game.html";
                     Ext.get('dragonCaveIframe').set({
-                        src: "game/undefined/game.html?" + Date.now()
+                        src: link + '&ds=' + 'http://localhost:3000/datatable/loadTable' + '&t=' + Date.now()
                     });
                 }
             }
+        }, {
+            xtype: 'tbspacer',
+            flex: 1
         }, {
             xtype: 'combobox',
             fieldLabel: '缩放',
@@ -61,7 +72,7 @@ Ext.define('datagrep.view.game.DragonCaveView', {
                 xtype: 'container',
                 layout : 'fit',
                 autoEl : {
-                    html: '<iframe id="dragonCaveIframe" style="transform-origin: 50% 50%; transform: scale(0.75,0.75); box-shadow: 0 0 5px #000; width: 320px; height: 480px;" src="game/undefined/game.html">'
+                    html: '<iframe id="dragonCaveIframe" style="transform-origin: 50% 50%; transform: scale(1.5,1.5); box-shadow: 0 0 5px #000; width: 320px; height: 480px;" src="game/undefined/game.html">'
                 }
             }]
         }];
