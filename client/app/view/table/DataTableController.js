@@ -115,7 +115,8 @@ Ext.define('datagrep.view.table.DataTableController', {
             return;
         }
         var fileInput = document.getElementById('excelFileInput');
-        fileInput.addEventListener('change', function(e) {
+        fileInput.addEventListener('change', function onChange(e) {
+            fileInput.removeEventListener('change', onChange);
             var files = e.target.files;
             if(files && files[0]) {
                 Ext.MessageBox.show({
