@@ -127,7 +127,7 @@ module.exports = {
                             onComplete(err);
                             return;
                         }
-                        md5KeyMap[file] = md5Key;
+                        md5KeyMap[file] = filename;
                         queueUpload(onComplete);
                     });
                 } else {
