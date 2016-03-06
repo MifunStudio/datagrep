@@ -1,7 +1,9 @@
 Ext.define('datagrep.view.table.DataTableController', {
     extend: 'Ext.app.ViewController',
     alias: 'controller.datatable',
-
+    requires: [
+        'datagrep.Constants'
+    ],
     listen: {
         controller: {
             '#addcolumnwindow': {
@@ -167,6 +169,33 @@ Ext.define('datagrep.view.table.DataTableController', {
             }
         });
         fileInput.click();
+    },
+
+    onUploadBtnClick: function() {
+        Ext.Ajax.request({
+             url: datagrep.Constants.SERVER_BASE + '/datatable/upload',
+             success: function(response, opts) {
+                 var obj = Ext.decode(response.responseText);
+                 if(obj.success) {
+                     Ext.toast({
+                         html: '上传发布成功',
+                         align: 't'
+                     });
+                 } else {
+                     Ext.toast({
+                         html: '上传发布失败: ' + obj.error.code + ' ' + obj.error.error,
+                         align: 't'
+                     });
+                 }
+             },
+
+             failure: function(response, opts) {
+                 Ext.toast({
+                     html: '上传发布失败',
+                     align: 't'
+                 });
+             }
+         });
     },
 
     clearTableGrid: function() {

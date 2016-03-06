@@ -1,6 +1,25 @@
 var fs = require('fs');
 var typeOf = require('typeof');
 var trim = require('trim');
+var qiniu = require("qiniu");
+var md5 = require('md5');
+
+qiniu.conf.ACCESS_KEY = 'KgroER2TrQ-fuC4VnQboyrr46wDZLJP2bgZX6Aww';
+qiniu.conf.SECRET_KEY = '6iO9SYqeqDvsROyiypfb3iA9I4YzTeOzxf1Wj0om';
+
+function uptoken(bucket, key) {
+    var putPolicy = new qiniu.rs.PutPolicy(bucket+":"+key);
+    return putPolicy.token();
+}
+
+function uploadFile(uptoken, key, localFile, callback) {
+    var extra = new qiniu.io.PutExtra();
+    qiniu.io.putFile(uptoken, key, localFile, extra, function(err, ret) {
+        callback(err);
+    });
+}
+
+var bucket = 'dragoncave';
 
 var fileData;
 
@@ -75,6 +94,75 @@ function transformArrayToHash(data, key) {
 }
 
 module.exports = {
+
+    upload: function(req, res) {
+        res.setHeader('Content-Type', 'application/json');
+        var dir = __dirname + '/datatable/tables';
+        fs.readdir(dir, function(err, files) {
+            if(err) {
+                res.send({
+                    success: !err,
+                    error: err
+                });
+                return;
+            }
+            var md5KeyMap = {};
+
+            function queueUpload(onComplete) {
+                var file = files.shift();
+                if(!file) {
+                    onComplete();
+                    return;
+                }
+
+                if(file.indexOf('.json') !== -1) {
+                    console.log('upload ' + file);
+                    var content = fs.readFileSync(dir + '/' + file, 'utf8');
+                    var md5Key = md5(content);
+                    var filename = md5Key + '.json';
+                    console.log(file + ' => ' + filename)
+                    var token = uptoken(bucket, filename);
+                    uploadFile(token, filename, dir + '/' + file, function(err) {
+                        if(err) {
+                            onComplete(err);
+                            return;
+                        }
+                        md5KeyMap[file] = md5Key;
+                        queueUpload(onComplete);
+                    });
+                } else {
+                    console.log('skip ' + file);
+                    queueUpload(onComplete);
+                }
+            }
+
+            queueUpload(function(err) {
+                if(err) {
+                    res.send({
+                        success: !err,
+                        error: err
+                    });
+                    return;
+                }
+
+                console.log('upload file.json');
+                var token = uptoken(bucket, 'file.json');
+                fs.writeFileSync(dir + '/file.json', JSON.stringify(md5KeyMap, null, '  '), 'utf8');
+                uploadFile(token, 'file.json', dir + '/file.json', function(err) {
+                    if(err) {
+                        res.send({
+                            success: !err,
+                            error: err
+                        });
+                        return;
+                    }
+                    res.send({
+                        success: true
+                    });
+                });
+            });
+        });
+    },
 
     list: function(req, res) {
         getFileData(function(data) {

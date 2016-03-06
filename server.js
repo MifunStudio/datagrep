@@ -13,8 +13,14 @@ app.use('/client', express.static(__dirname + '/client'));
 
 app.all('/**', function(req, res) {
     var paths = req.path.split('/');
+    console.log(req.path, paths.length);
     if(paths.length === 3) {
-        require('./' + paths[1])[paths[2]](req, res);
+        res.header("Access-Control-Allow-Origin", "*");
+        try {
+            require('./' + paths[1])[paths[2]](req, res);
+        } catch(e) {
+            console.log(e);
+        }
     } else {
         res.send('Path: ' + req.path + ' not resolved');
     }

@@ -62,6 +62,13 @@ Ext.define('datagrep.view.table.DataTable', {
             iconCls: 'right-icon new-icon x-fa fa-file',
             text: '选择Excel...',
             handler: 'onSelectExcelBtnClick'
+        }, {
+            xtype: 'tbspacer',
+            flex: 1
+        }, {
+            iconCls: 'right-icon new-icon x-fa fa-file',
+            text: '上传发布',
+            handler: 'onUploadBtnClick'
         }];
 
         me.cellEditing = new Ext.grid.plugin.CellEditing({
