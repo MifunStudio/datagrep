@@ -115,7 +115,7 @@ module.exports = {
                     return;
                 }
 
-                if(file.indexOf('.json') !== -1) {
+                if(file !== 'file.json' && file.indexOf('.json') !== -1) {
                     console.log('upload ' + file);
                     var content = fs.readFileSync(dir + '/' + file, 'utf8');
                     var md5Key = md5(content);
